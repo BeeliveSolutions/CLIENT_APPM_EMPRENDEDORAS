@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  FlatList,
-  StyleSheet,
-  Image,
-} from "react-native";
+import { FlatList, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 
 import api from "../services/api/index";
@@ -18,7 +10,7 @@ export function Home() {
 
   async function callGetUsers() {
     api
-      .get("/users")
+      .get("/companies")
       .then((response) => {
         setUsers(response.data);
       })
@@ -59,7 +51,7 @@ export function Home() {
       <FlatList
         style={{ marginTop: 30, height: 600 }}
         data={users}
-        keyExtractor={(item) => item.user_id}
+        keyExtractor={(item) => item.company_id}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <View style={styles.wrapperCompany}>
@@ -83,7 +75,7 @@ export function Home() {
       <FlatList
         style={{ marginTop: 30 }}
         data={users}
-        keyExtractor={(item) => item.user_id}
+        keyExtractor={(item) => item.company_id}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
           <View style={styles.wrapperCompany}>
