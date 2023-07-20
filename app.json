@@ -5,6 +5,12 @@
     "version": "1.0.0",
     "assetBundlePatterns": [
       "**/*"
-    ]
+    ],
+    "splash": {
+      "image": "./src/Images/Logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#f9f9f9"
+    },
+    "icon": "./src/Images/Logo.png"
   }
 }
