@@ -1,21 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import {ActivityIndicator } from 'react-native'
+import { Routes } from "./src/Routes";
+import { StatusBar } from 'expo-status-bar'
+import {  useFonts, Inter_900Black, Inter_500Medium} from '@expo-google-fonts/inter';
+import {Alegreya_400Regular, Alegreya_700Bold} from '@expo-google-fonts/alegreya'
+export default function App(){
+  let [fontsLoaded] = useFonts({
+    Inter_500Medium,
+    Inter_900Black,
+    Alegreya_400Regular,
+    Alegreya_700Bold,
+  });
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+  if (!fontsLoaded) {
+    return (
+      <ActivityIndicator  size={"large"}/>
+    )
+  }
+  else{
+    return(
+      <Routes>
+          <StatusBar style='dark'/>
+      </Routes>
+    )
+  }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
