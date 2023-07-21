@@ -1,10 +1,11 @@
+import { Alegreya_400Regular, Alegreya_700Bold } from "@expo-google-fonts/alegreya";
+import { Inter_500Medium, Inter_900Black, useFonts } from "@expo-google-fonts/inter";
 import React from "react";
-import {ActivityIndicator } from 'react-native'
-import { Routes } from "./src/Routes";
-import { StatusBar } from 'expo-status-bar'
-import {  useFonts, Inter_900Black, Inter_500Medium} from '@expo-google-fonts/inter';
-import {Alegreya_400Regular, Alegreya_700Bold} from '@expo-google-fonts/alegreya'
-export default function App(){
+import { ActivityIndicator, StatusBar } from "react-native";
+
+import Routes from "./src/routes";
+
+export default function App() {
   let [fontsLoaded] = useFonts({
     Inter_500Medium,
     Inter_900Black,
@@ -13,15 +14,12 @@ export default function App(){
   });
 
   if (!fontsLoaded) {
+    return <ActivityIndicator size={"large"} />;
+  } else {
     return (
-      <ActivityIndicator  size={"large"}/>
-    )
-  }
-  else{
-    return(
       <Routes>
-          <StatusBar style='dark'/>
+        <StatusBar style="dark" />
       </Routes>
-    )
+    );
   }
 }
