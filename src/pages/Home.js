@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  ScrollView,
   Text,
   View,
   TextInput,
@@ -9,18 +10,18 @@ import {
   Image,
 } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
-
+import { AntDesign } from '@expo/vector-icons';
 import api from "../services/api/index";
 
 export function Home() {
-  const [users, setUsers] = useState([]);
+  const [companies, setCompanies] = useState([]);
   const [loading, setLoading] = useState(true);
 
   async function callGetUsers() {
     api
-      .get("/users")
+      .get("/companies")
       .then((response) => {
-        setUsers(response.data);
+        setCompanies(response.data);
       })
       .catch((error) => {
         if (error.response) {
@@ -52,57 +53,67 @@ export function Home() {
       </View>
       <TextInput
         style={styles.textInput}
-        placeholder="Buscar Empresa"
+        placeholder="Buscar Empresas"
         placeholderTextColor="#DC0E7B"
       />
-      <Text style={styles.highlight}>Destaque</Text>
-      <FlatList
-        style={{ marginTop: 30, height: 600 }}
-        data={users}
-        keyExtractor={(item) => item.user_id}
-        showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <View style={styles.wrapperCompany}>
-            <Image
-              style={styles.companyLogo}
-              source={{
-                uri: "https://www.gostodetinta.com.br/home/wp-content/uploads/2017/09/g3.jpg",
-              }}
-            ></Image>
-            <View>
-              <Text style={styles.companyName}>{item.name}</Text>
-              <Text style={styles.companyDescription}>{item.name}</Text>
+      <ScrollView>
+
+        <Text style={styles.highlight}>Destaque</Text>
+        <FlatList
+          style={{ marginTop: 15 }}
+          data={companies}
+          keyExtractor={(item) => item.company_id}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item }) => (
+            <View style={styles.wrapperCompany}>
+              <Image
+                style={styles.companyLogo}
+                source={{
+                  uri: "https://www.gostodetinta.com.br/home/wp-content/uploads/2017/09/g3.jpg",
+                }}
+              ></Image>
+              <View style={styles.textCompanyView}>
+                <Text style={styles.companyName}>{item.name}</Text>
+                <Text numberOfLines={1} style={styles.companyDescription}>{item.description}</Text>
+              </View>
+
+              <TouchableOpacity style={styles.buttonArrow}>
+                <AntDesign name="arrowright" size={25} color="black" />
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.companyDetailsButton}>
-              <Text style={styles.companyDetailsButtonText}>ver</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      />
-      <Text style={styles.highlight}>Novas empresas</Text>
-      <FlatList
-        style={{ marginTop: 30 }}
-        data={users}
-        keyExtractor={(item) => item.user_id}
-        showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <View style={styles.wrapperCompany}>
-            <Image
-              style={styles.companyLogo}
-              source={{
-                uri: "https://www.gostodetinta.com.br/home/wp-content/uploads/2017/09/g3.jpg",
-              }}
-            ></Image>
-            <View>
-              <Text style={styles.companyName}>{item.name}</Text>
-              <Text style={styles.companyDescription}>{item.name}</Text>
+          )}
+        />
+        <Text style={styles.highlight}>Novas empresas</Text>
+        <FlatList
+          style={{ marginTop: 15 }}
+          data={companies}
+          keyExtractor={(item) => item.company_id}
+          showsVerticalScrollIndicator={false}
+          renderItem={({ item }) => (
+            <View style={styles.wrapperCompany}>
+              <Image
+                style={styles.companyLogo}
+                source={{
+                  uri: "https://www.gostodetinta.com.br/home/wp-content/uploads/2017/09/g3.jpg",
+                }}
+              ></Image>
+              <View style={styles.textCompanyView}>
+                <Text style={styles.companyName}>{item.name}</Text>
+                <Text numberOfLines={1} style={styles.companyDescription}>{item.description}</Text>
+              </View>
+
+              <TouchableOpacity style={styles.buttonArrow}>
+                <AntDesign name="arrowright" size={25} color="black" />
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.companyDetailsButton}>
-              <Text style={styles.companyDetailsButtonText}>ver</Text>
-            </TouchableOpacity>
-          </View>
-        )}
-      />
+          )}
+        />
+
+
+      </ScrollView>
+
+
+
     </View>
   );
 }
@@ -112,7 +123,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: "100%",
     backgroundColor: "#fff",
-    padding: 20,
+    padding: 15,
   },
   header: {
     justifyContent: "space-between",
@@ -147,33 +158,33 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
   },
   highlight: {
-    fontSize: 12,
+    fontSize: 20,
     color: "#DC0E7B",
     fontWeight: "700",
-    marginTop: 16,
+    marginTop: 10
   },
   wrapperCompany: {
     width: "100%",
     backgroundColor: "#DC0E7B",
     borderRadius: 15,
-    marginBottom: 20,
+    marginBottom: 15,
     flexDirection: "row",
     justifyContent: "space-between",
-    padding: 20,
+    padding: 10,
     alignItems: "center",
+  },
+  textCompanyView: {
+    width: "70%",
   },
   companyLogo: {
     width: 56,
     height: 56,
     borderRadius: 50,
   },
-  companyDetailsButton: {
-    width: 70,
-    height: 40,
-    backgroundColor: "#fff",
-    borderRadius: 16,
-    justifyContent: "center",
-    alignItems: "center",
+  buttonArrow: {
+    padding: 5,
+    backgroundColor: '#fff',
+    borderRadius: 50
   },
   companyDetailsButtonText: {
     fontSize: 14,
@@ -181,7 +192,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
   },
   companyName: {
-    fontSize: 24,
+    fontSize: 23,
     color: "#fff",
     fontWeight: "500",
   },
@@ -190,5 +201,6 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "400",
     textAlign: "left",
+
   },
 });
