@@ -3,10 +3,10 @@ import LottieView from "lottie-react-native";
 import React, { useEffect } from "react";
 import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-import OnboardingBackground from "../../images/OnboardingBackground.png";
+import OnboardingBackground from "../../Images/OnboardingBackground.png";
 
 export function Onboarding() {
-  // const ScreenWidth = Dimensions.get("window").width;
+  const ScreenWidth = Dimensions.get("window").width;
   const ScreenHeight = Dimensions.get("window").height.toFixed(0);
 
   const isHighEnd = ScreenHeight > 759 ? true : false;
@@ -33,7 +33,7 @@ export function Onboarding() {
           </TouchableOpacity>
         </View>
         <View style={styles.RightButtonWrapper}>
-          <TouchableOpacity style={styles.ButtonWantMeet}>
+          <TouchableOpacity style={styles.ButtonWantMeet} onPress={() => navigation.navigate("Home")}>
             <Text style={styles.textButtonWantMeet}>Quero conhecer</Text>
           </TouchableOpacity>
         </View>
@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
   },
   LeftButtonWrapper: {
     alignItems: "flex-start",
+
   },
   RightButtonWrapper: {
     alignItems: "flex-end",
