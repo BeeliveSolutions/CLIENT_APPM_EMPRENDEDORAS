@@ -63,12 +63,12 @@ export default function UserProfile() {
         <View style={styles.contactsView}>
           <View style={styles.contactArea}>
             <Text style={styles.goText}>Whatsapp</Text>
-            <TouchableOpacity style={styles.goButton}><Text style={{color: '#fff'}}>IR</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.goButton}><Text style={styles.textGoButton}>IR</Text></TouchableOpacity>
           </View>
 
           <View style={styles.contactArea}>
             <Text style={styles.goText}>Instagram</Text>
-            <TouchableOpacity style={styles.goButton}><Text style={{color: '#fff'}}>IR</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.goButton}><Text style={styles.textGoButton}>IR</Text></TouchableOpacity>
           </View>
         </View>
       </View>
@@ -122,6 +122,7 @@ export default function UserProfile() {
 
     viewDown: {
       flex: 0.7,
+      backgroundColor: '#fff'
     },
 
     userNameView: {
@@ -245,5 +246,9 @@ export default function UserProfile() {
       alignItems: 'center',
       borderWidth: 1,
       borderColor: '#0043CE'
+    },
+
+    textGoButton: {
+      color: '#fff'
     }
   })
