@@ -28,7 +28,7 @@ export function IAmEntrepreneur() {
           <View style={styles.LeftButtonWrapper}>
             <TouchableOpacity
               style={styles.buttonIAmEntrepreneur}
-              onPress={() => navigation.navigate("IAmEntrepreneur")}
+              onPress={() => navigation.navigate("Register")}
             >
               <Text style={styles.textButtonIAmEntrepreneur}>Quero me cadastrar</Text>
             </TouchableOpacity>

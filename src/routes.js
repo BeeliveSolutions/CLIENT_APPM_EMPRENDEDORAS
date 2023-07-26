@@ -5,6 +5,7 @@ import { IAmEntrepreneur } from "../src/pages/IAmEntrepreneur";
 import { Onboarding } from "../src/pages/Onboarding";
 import Filter from "./pages/Filter";
 import GoBackButton from "./components/GoBackButton";
+import Register from "./pages/Register/Index";
 
 export default function Routes() {
   const { Navigator, Screen } = createNativeStackNavigator();
@@ -47,6 +48,26 @@ export default function Routes() {
               fontSize: 25
             },
             title: "Filtrar Empresas",
+            headerLeft: () => <GoBackButton />,
+          }}
+        />
+
+
+        <Screen
+          name="Register"
+          component={Register}
+
+          options={{
+            headerStyle: {
+              backgroundColor: '#fff',
+            },
+            headerTintColor: '#DC0E7B',
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              color: '#DC0E7B',
+              fontSize: 25
+            },
+            title: "Criar Conta",
             headerLeft: () => <GoBackButton />,
           }}
         />
