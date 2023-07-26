@@ -27,13 +27,18 @@ export function Onboarding() {
         <View style={styles.LeftButtonWrapper}>
           <TouchableOpacity
             style={styles.buttonIAmEntrepreneur}
-            onPress={() => navigation.navigate("IAmEntrepreneur")}
+            onPress={() => navigation.navigate("Login")}
           >
-            <Text style={styles.textButtonIAmEntrepreneur}>Sou empreendedora</Text>
+            <Text style={styles.textButtonIAmEntrepreneur}>
+              Sou empreendedora
+            </Text>
           </TouchableOpacity>
         </View>
         <View style={styles.RightButtonWrapper}>
-          <TouchableOpacity style={styles.ButtonWantMeet} onPress={() => navigation.navigate("Home")}>
+          <TouchableOpacity
+            style={styles.ButtonWantMeet}
+            onPress={() => navigation.navigate("Home")}
+          >
             <Text style={styles.textButtonWantMeet}>Quero conhecer</Text>
           </TouchableOpacity>
         </View>
@@ -76,7 +81,6 @@ const styles = StyleSheet.create({
   },
   LeftButtonWrapper: {
     alignItems: "flex-start",
-
   },
   RightButtonWrapper: {
     alignItems: "flex-end",

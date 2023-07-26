@@ -1,10 +1,12 @@
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Home from "./pages/Home";
+
 import { IAmEntrepreneur } from "../src/pages/IAmEntrepreneur";
+import { Login } from "../src/pages/Login";
 import { Onboarding } from "../src/pages/Onboarding";
-import Filter from "./pages/Filter";
 import GoBackButton from "./components/GoBackButton";
+import Filter from "./pages/Filter";
+import Home from "./pages/Home";
 
 export default function Routes() {
   const { Navigator, Screen } = createNativeStackNavigator();
@@ -17,6 +19,11 @@ export default function Routes() {
           options={{ headerShown: false, statusBarColor: "#DC0E7B" }}
         />
         <Screen
+          name="Login"
+          component={Login}
+          options={{ headerShown: false, statusBarColor: "#DC0E7B" }}
+        />
+        <Screen
           name="IAmEntrepreneur"
           component={IAmEntrepreneur}
           options={{ statusBarColor: "#DC0E7B", headerShown: false }}
@@ -26,25 +33,24 @@ export default function Routes() {
           name="Home"
           component={Home}
           options={{
-            statusBarColor: "#DC0E7B", headerShown: false, headerBlurEffect: true
+            statusBarColor: "#DC0E7B",
+            headerShown: false,
+            headerBlurEffect: true,
           }}
         />
-
-
 
         <Screen
           name="Filter"
           component={Filter}
-
           options={{
             headerStyle: {
-              backgroundColor: '#fff',
+              backgroundColor: "#fff",
             },
-            headerTintColor: '#DC0E7B',
-            headerTitleAlign: 'center',
+            headerTintColor: "#DC0E7B",
+            headerTitleAlign: "center",
             headerTitleStyle: {
-              color: '#DC0E7B',
-              fontSize: 25
+              color: "#DC0E7B",
+              fontSize: 25,
             },
             title: "Filtrar Empresas",
             headerLeft: () => <GoBackButton />,
