@@ -2,27 +2,24 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { Alert, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
-import api from '../../services/api'
+import api from "../../services/api";
 
 export function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [hidePassword, setHidePassword] = useState(true);
-  
+
   const navigation = useNavigation();
 
-  async function signIn(email, password){
+  async function signIn(email, password) {
     try {
-      const { data } = await api.post('/login', {email, password})
-      return data
-      
+      const { data } = await api.post("/login", { email, password });
+      data ? navigation.navigate("Home") : null;
+      return data;
     } catch (error) {
-      console.log('Vai criar uma contar')
-      throw error
+      throw error;
     }
   }
-
-
 
   return (
     <KeyboardAvoidingView
@@ -117,11 +114,11 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingLeft: 16,
     color: "#DC0E7B",
-    width: "70%",
+    width: "80%",
   },
   passwordShow: {
     backgroundColor: "#F6F6F6",
-    width: "30%",
+    width: "20%",
     height: 50,
     borderBottomRightRadius: 8,
     borderTopRightRadius: 8,
@@ -130,7 +127,7 @@ const styles = StyleSheet.create({
   },
   togglePasswordVisibility: {
     fontFamily: "Inter_500Medium",
-    fontSize: 16,
+    fontSize: 12,
     color: "#DC0E7B",
   },
   loginButton: {
