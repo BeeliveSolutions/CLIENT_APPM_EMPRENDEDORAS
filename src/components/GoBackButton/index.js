@@ -1,9 +1,9 @@
+import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
-import { AntDesign } from "@expo/vector-icons";
 
-const GoBackButton = () => {
+export const GoBackButton = () => {
     const navigation = useNavigation()
     return <View>
         <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -18,7 +18,7 @@ const GoBackButton = () => {
     </View>;
 }
 
-export default GoBackButton;
+
 
 
 

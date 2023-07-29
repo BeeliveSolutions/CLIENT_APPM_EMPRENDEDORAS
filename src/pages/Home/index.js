@@ -1,20 +1,12 @@
-import React, { useEffect, useState } from "react";
-import {
-  ScrollView,
-  Text,
-  View,
-  TextInput,
-  TouchableOpacity,
-  FlatList,
-  StyleSheet,
-  Image,
-} from "react-native";
-import Icon from "react-native-vector-icons/Feather";
 import { AntDesign } from '@expo/vector-icons';
-import api from '../../services/api';
 import { useNavigation, useRoute } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
+import { FlatList, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import Icon from "react-native-vector-icons/Feather";
 
-export default function Home() {
+import api from '../../services/api';
+
+export function Home() {
   const route = useRoute();
 
   // Acessar a propriedade filterQuery
@@ -102,7 +94,7 @@ export default function Home() {
         placeholder="Buscar Empresas"
         placeholderTextColor="#DC0E7B"
       />
-      <ScrollView>
+      <ScrollView >
 
         <Text style={styles.highlight}>{filterQuery ? "Empresas Filtradas" : ("Destaque")}</Text>
         {companies.length === 0 ? (<Text style={styles.noCompaniesText}>Nenhuma empresa encontrada.</Text>) : (<FlatList

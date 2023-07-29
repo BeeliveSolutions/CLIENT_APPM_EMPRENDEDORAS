@@ -3,9 +3,9 @@ import { Inter_500Medium, Inter_900Black, useFonts } from "@expo-google-fonts/in
 import React from "react";
 import { ActivityIndicator, StatusBar } from "react-native";
 
-import Routes from "./src/routes";
+import { Routes } from "./src/routes";
 
-export default function App() {
+export function App() {
   let [fontsLoaded] = useFonts({
     Inter_500Medium,
     Inter_900Black,

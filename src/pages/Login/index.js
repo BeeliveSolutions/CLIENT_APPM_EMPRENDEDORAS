@@ -12,13 +12,16 @@ export function Login() {
   const navigation = useNavigation();
 
   async function signIn(email, password) {
-    try {
-      const { data } = await api.post("/login", { email, password });
-      data ? navigation.navigate("Home") : null;
-      return data;
-    } catch (error) {
-      throw error;
+    if (email && password) {
+      try {
+        const { data } = await api.post("/login", { email, password });
+        data ? navigation.navigate("Home") : null;
+        return data;
+      } catch (error) {
+        throw error;
+      }
     }
+    return null;
   }
 
   return (

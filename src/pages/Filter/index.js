@@ -1,10 +1,11 @@
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, ScrollView } from 'react-native'
-import React, { useEffect, useState } from 'react'
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react'
+import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+
 import api from '../../services/api';
 
-export default function Filter() {
+export function Filter() {
     const navigation = useNavigation();
     const [categories, setCategories] = useState([]);
     const [myUf, setMyUf] = useState();
