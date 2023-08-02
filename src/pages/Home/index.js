@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { FlatList, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 
-import api from '../../services/api';
+import { api } from '../../services/api';
 
 export function Home() {
   const route = useRoute();

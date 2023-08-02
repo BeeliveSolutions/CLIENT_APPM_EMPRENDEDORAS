@@ -5,7 +5,7 @@ import React, { useEffect, useState } from "react";
 import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import ToastManager, { Toast } from "toastify-react-native";
 
-import api from "../../services/api";
+import { api } from "../../services/api";
 
 export function Register() {
   // State variables for registration fields

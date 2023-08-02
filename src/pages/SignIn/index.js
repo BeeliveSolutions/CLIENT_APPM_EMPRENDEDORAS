@@ -1,13 +1,15 @@
 import { useNavigation } from "@react-navigation/native";
+import axios from "axios";
 import React, { useState } from "react";
 import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
-import api from "../../services/api";
+import { api } from "../../services/api";
 
 export function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [hidePassword, setHidePassword] = useState(true);
+  const [invalidCredentials, setInvalidCredentials] = useState(false);
 
   const navigation = useNavigation();
 
@@ -15,10 +17,21 @@ export function SignIn() {
     if (email && password) {
       try {
         const { data } = await api.post("/login", { email, password });
-        data ? navigation.navigate("Home") : null;
+        if (data) {
+          setInvalidCredentials(false);
+          navigation.navigate("Home");
+          setEmail("");
+          setPassword("");
+        }
         return data;
       } catch (error) {
-        throw error;
+        if(axios.isAxiosError(error)){
+          console.log(error.response?.data)
+        }
+        if(error.response.status === 401 || 400) {
+         setInvalidCredentials(true)
+         throw error.response.status;
+        }
       }
     }
     return null;
@@ -63,6 +76,16 @@ export function SignIn() {
           </TouchableOpacity>
         </View>
       </View>
+      <View>
+        {invalidCredentials ? (
+          <View style={styles.invalidCredentialsWrapper}>
+            <Text style={styles.invalidCredentialsText}>
+              {" "}
+              E-mail ou senha incorretos
+            </Text>
+          </View>
+        ) : null}
+      </View>
       <TouchableOpacity
         onPress={() => handleSignIn(email, password)}
         style={styles.loginButton}
@@ -94,7 +117,7 @@ const styles = StyleSheet.create({
   inputWrapper: {
     width: "100%",
     gap: 16,
-    marginVertical: 50,
+    marginTop: 50,
   },
   emailInput: {
     height: 50,
@@ -133,6 +156,13 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#DC0E7B",
   },
+  invalidCredentialsWrapper: {
+    width: "100%",
+    paddingTop: 5,
+  },
+  invalidCredentialsText: {
+    color: "#DC0E7B",
+  },
   loginButton: {
     width: "100%",
     backgroundColor: "#DC0E7B",
@@ -141,6 +171,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 20,
+    marginTop: 50,
   },
   loginTextButton: {
     fontFamily: "Inter_500Medium",

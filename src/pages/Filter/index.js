@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react'
 import { FlatList, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
-import api from '../../services/api';
+import { api } from '../../services/api';
 
 export function Filter() {
     const navigation = useNavigation();
