@@ -1,4 +1,4 @@
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "./pages/Home";
 import { IAmEntrepreneur } from "../src/pages/IAmEntrepreneur";
@@ -6,12 +6,13 @@ import { Onboarding } from "../src/pages/Onboarding";
 import Filter from "./pages/Filter";
 import GoBackButton from "./components/GoBackButton";
 import Register from "./pages/Register/Index";
+import CreationSucessful from "./pages/CreationSucessful";
 
 export default function Routes() {
   const { Navigator, Screen } = createNativeStackNavigator();
   return (
     <NavigationContainer>
-      <Navigator>
+      <Navigator  >
         <Screen
           name="Onboarding"
           component={Onboarding}
@@ -26,12 +27,12 @@ export default function Routes() {
         <Screen
           name="Home"
           component={Home}
+
           options={{
+            headerLeft: null,
             statusBarColor: "#DC0E7B", headerShown: false, headerBlurEffect: true
           }}
         />
-
-
 
         <Screen
           name="Filter"
@@ -58,6 +59,7 @@ export default function Routes() {
           component={Register}
 
           options={{
+            statusBarColor: "#DC0E7B",
             headerStyle: {
               backgroundColor: '#fff',
             },
@@ -69,6 +71,15 @@ export default function Routes() {
             },
             title: "Criar Conta",
             headerLeft: () => <GoBackButton />,
+          }}
+        />
+
+
+        <Screen
+          name="CreateSucessful"
+          component={CreationSucessful}
+          options={{
+            statusBarColor: "#DC0E7B", headerShown: false, headerBlurEffect: true
           }}
         />
       </Navigator>

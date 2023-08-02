@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, KeyboardAvoidingView, ScrollView, BackHandler } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { Picker } from '@react-native-picker/picker';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { Platform } from 'react-native';
 import api from '../../services/api'
 import ToastManager, { Toast } from 'toastify-react-native'
+import { useNavigation } from '@react-navigation/core';
+
+
 const Register = () => {
+    const navigate = useNavigation()
+
+
+
     // State variables for registration fields
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -54,57 +61,87 @@ const Register = () => {
     };
 
     const handleCreateAccount = async () => {
-        if (!name | !password | !email) {
-            return Toast.error('Campos Obrigatorios!', 'top', {
-            });
-
-
+        if (!name || !password || !email || !phoneNumber || !ddd) {
+            return Toast.error('Campos Obrigatórios!', 'top');
         }
 
         const formatedDate = (date) => {
-            let newDate = date.toLocaleDateString();
-
-
-
-
-
             const year = date.getFullYear();
             const month = (date.getMonth() + 1).toString().padStart(2, '0');
             const day = date.getDate().toString().padStart(2, '0');
-
             return `${year}-${month}-${day}`;
         };
 
+        const handleValidation = () => {
+            const errors = [];
 
-        await api.post('/users', {
-            "name": name,
-            "email": email,
-            "password": password,
-            "phone_number": `${ddd}${phoneNumber}`,
-            "address": address,
-            'birth_date': formatedDate(date),
-            'address': address,
-            "is_entrepreneur": isEntrepreneur,
-            "uf": selectedUf,
-            "city": selectedCity.nome,
-
-
-        }, {
-            headers: {
-                'Content-Type': 'application/json'
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                errors.push('Email não é válido!');
             }
-        })
-            .then(function (response) {
-                Toast.success("Usuario Criado!😀");
-            })
-            .catch(function (error) {
-                Toast.error("Erro!😢");
+
+            if (password.length < 8) {
+                errors.push('Senha deve ter pelo menos 8 caracteres!');
+            }
+
+
+
+            const phoneRegex = /^\d{7,}$/;
+            const phoneNumberAll = ddd + phoneNumber;
+            const isValidPhone = phoneRegex.test(phoneNumberAll);
+
+            if (!isValidPhone) {
+                errors.push('Telefone inválido! Insira um número válido com pelo menos 7 dígitos, incluindo o DDD.');
+            }
+
+
+            return errors;
+        };
+
+        const validationErrors = handleValidation();
+        if (validationErrors.length > 0) {
+            validationErrors.forEach((error) => {
+                Toast.error(error, 'top');
+            });
+            return;
+        }
+
+        try {
+            const response = await api.post('/users', {
+                "name": name,
+                "email": email,
+                "password": password,
+                "phone_number": `${ddd}${phoneNumber}`,
+                "address": address,
+                "birth_date": formatedDate(date),
+                "address": address,
+                "is_entrepreneur": isEntrepreneur,
+                "uf": selectedUf,
+                "city": selectedCity.nome,
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             });
 
+            //GUARDAR TOKEN NO ASYNC STORAGE
+            const token = response.data.token;
+            if (token) {
+                navigate.navigate('CreateSucessful')
+            }
+            // console.log('Token do usuário:', token);
+            // console.log("user: ", user)
 
-    }
+        } catch (error) {
+            if (error.response) {
+                Toast.error(error.response.data.msg); // => a resposta da API quando há erro
+            }
+        }
+    };
+
 
     useEffect(() => {
+
         fetchUfs();
     }, []);
 
@@ -151,13 +188,13 @@ const Register = () => {
     });
 
     return (
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.wrapper}>
+        <ScrollView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.wrapper}>
             <ToastManager />
             <View style={styles.inputWrapper}>
                 <Text style={styles.label}>Nome*</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Name"
+                    placeholder="Ex: Maria de Lurdes"
                     value={name}
                     onChangeText={setName}
                 />
@@ -167,8 +204,9 @@ const Register = () => {
                 <Text style={styles.label}>Email*</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="email@example.com"
+                    placeholder="maria@exemplo.com"
                     value={email}
+                    keyboardType='email-address'
                     onChangeText={setEmail}
                 />
             </View>
@@ -207,10 +245,10 @@ const Register = () => {
 
             <View style={styles.inputWrapperRow}>
                 <View style={[styles.inputWrapper, styles.ddiWrapper]}>
-                    <Text style={styles.label}>DDD</Text>
+                    <Text style={styles.label}>DDD*</Text>
                     <TextInput
-                        style={styles.input}
-                        placeholder="DDD"
+                        style={[styles.input]}
+                        placeholder="00"
                         value={ddd}
                         onChangeText={setDdd}
                         keyboardType="phone-pad"
@@ -218,10 +256,10 @@ const Register = () => {
                     />
                 </View>
                 <View style={styles.inputWrapper}>
-                    <Text style={styles.label}>Telefone</Text>
+                    <Text style={styles.label}>Telefone*</Text>
                     <TextInput
-                        style={styles.input}
-                        placeholder="Telefone"
+                        style={[styles.input, styles.cellInput]}
+                        placeholder="Seu Numero"
                         value={phoneNumber}
                         onChangeText={setPhoneNumber}
                         keyboardType="phone-pad"
@@ -311,7 +349,7 @@ const Register = () => {
                     <Text style={styles.textBtnFinish}>Criar Conta</Text>
                 </TouchableOpacity>
             </View>
-        </KeyboardAvoidingView>
+        </ScrollView>
     );
 };
 
@@ -319,10 +357,12 @@ const styles = StyleSheet.create({
     wrapper: {
         flex: 1,
         padding: 20,
-        backgroundColor: '#ffffffff'
+        backgroundColor: '#ffffffff',
+
+
     },
     inputWrapper: {
-        width: 'auto',
+
         marginBottom: 10,
 
     },
@@ -347,43 +387,41 @@ const styles = StyleSheet.create({
 
     },
 
-    phoneWrapper: {
-        flexDirection: 'row',
-        marginBottom: 10,
-
-    },
     ddiWrapper: {
-        marginRight: 5,
+
+        marginRight: 3,
     },
     label: {
         color: '#DC0E7B',
         fontSize: 15,
-        fontWeight: 'bold',
         marginBottom: 5,
-
+        fontFamily: "Inter_900Black",
 
     },
 
 
     labelWrong: {
         color: '#DC0E7B',
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginBottom: 5,
-
+        fontSize: 20,
+        marginBottom: 8,
+        fontFamily: "Alegreya_700Bold",
 
     },
     input: {
-
         backgroundColor: 'white',
         borderWidth: 1,
         borderColor: '#D9D9D9',
         borderRadius: 7,
         padding: 10,
-        color: '#DC0E7B',
 
+        fontFamily: "Inter_500Medium",
     },
 
+    cellInput: {
+        width: 120
+
+    }
+    ,
     dropDownWrapper: {
         display: 'flex',
         flex: 1,
@@ -449,14 +487,14 @@ const styles = StyleSheet.create({
     checkboxText: {
         color: '#DC0E7B',
 
+
     },
     btnFinishWrapper: {
-
-        flex: 1,
         width: "100%",
+
         justifyContent: 'center',
         alignItems: 'center',
-
+        marginVertical: 29,
     },
     btnFinish: {
         display: 'flex',
@@ -469,7 +507,8 @@ const styles = StyleSheet.create({
     },
     textBtnFinish: {
         color: "#ffff",
-        fontSize: 16
+        fontSize: 16,
+        fontFamily: "Alegreya_700Bold",
     }
 
 });
