@@ -4,8 +4,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Filter } from "../src/pages/Filter";
 import { Home } from "../src/pages/Home";
 import { IAmEntrepreneur } from "../src/pages/IAmEntrepreneur";
-import { Login } from "../src/pages/Login";
 import { Onboarding } from "../src/pages/Onboarding";
+import { SignIn } from "../src/pages/SignIn";
 import { GoBackButton } from "./components/GoBackButton";
 import { Register } from "./pages/Register/Index";
 
@@ -20,8 +20,8 @@ export function Routes() {
           options={{ headerShown: false, statusBarColor: "#DC0E7B" }}
         />
         <Screen
-          name="Login"
-          component={Login}
+          name="SignIn"
+          component={SignIn}
           options={{ headerShown: false, statusBarColor: "#DC0E7B" }}
         />
         <Screen

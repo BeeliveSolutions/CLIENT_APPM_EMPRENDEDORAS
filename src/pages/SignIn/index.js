@@ -1,17 +1,17 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import { Alert, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 import api from "../../services/api";
 
-export function Login() {
+export function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [hidePassword, setHidePassword] = useState(true);
 
   const navigation = useNavigation();
 
-  async function signIn(email, password) {
+  async function handleSignIn(email, password) {
     if (email && password) {
       try {
         const { data } = await api.post("/login", { email, password });
@@ -64,7 +64,7 @@ export function Login() {
         </View>
       </View>
       <TouchableOpacity
-        onPress={() => signIn(email, password)}
+        onPress={() => handleSignIn(email, password)}
         style={styles.loginButton}
       >
         <Text style={styles.loginTextButton}>Entrar</Text>

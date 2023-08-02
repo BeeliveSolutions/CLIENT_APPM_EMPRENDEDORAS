@@ -27,7 +27,7 @@ export function Onboarding() {
         <View style={styles.LeftButtonWrapper}>
           <TouchableOpacity
             style={styles.buttonIAmEntrepreneur}
-            onPress={() => navigation.navigate("Login")}
+            onPress={() => navigation.navigate("SignIn")}
           >
             <Text style={styles.textButtonIAmEntrepreneur}>
               Sou empreendedora
