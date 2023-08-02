@@ -8,6 +8,7 @@ import {
   FlatList,
   StyleSheet,
   Image,
+  BackHandler,
 } from "react-native";
 import Icon from "react-native-vector-icons/Feather";
 import { AntDesign } from '@expo/vector-icons';
@@ -72,6 +73,12 @@ export default function Home() {
 
   }
   useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      navigation.navigate('Home');
+      return true;
+    });
+
+
     if (filterQuery) {
       console.log(filterQuery)
       callGetFilterCompanies()
@@ -110,6 +117,7 @@ export default function Home() {
           data={companies}
           keyExtractor={(item) => item.company_id}
           showsVerticalScrollIndicator={false}
+
           renderItem={({ item }) => (
             <View style={styles.wrapperCompany}>
               <Image
@@ -132,7 +140,7 @@ export default function Home() {
         }
 
 
-        <Text style={styles.highlight}>{filterQuery ? "" : ("Destaque")}</Text>
+        {filterQuery ? ('') : (<Text style={styles.highlight}> Novas empresas</Text>)}
         {companies.length === 0 ? (<Text style={styles.noCompaniesText}>Nenhuma empresa encontrada.</Text>) : (<FlatList
           style={{ marginTop: 15 }}
           data={companies}
@@ -208,6 +216,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
   },
   highlight: {
+
     fontSize: 20,
     color: "#DC0E7B",
     fontWeight: "700",
